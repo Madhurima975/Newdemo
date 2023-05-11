@@ -1,0 +1,23 @@
+pipeline {
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        sh 'echo "Building the project..."'
+        sh 'npm install'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'echo "Running tests..."'
+        sh 'npm test'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh 'echo "Deploying the project..."'
+        sh 'aws s3 sync . s3://my-bucket'
+      }
+    }
+  }
+}
