@@ -1,23 +1,19 @@
 pipeline {
-  agent any
-  stages {
-    stage('Build') {
-      steps {
-        sh 'echo "Building the project..."'
-        sh 'npm install'
-      }
+    stages {
+        stage('Clone repository') {
+            steps {
+                git 'https://github.com/Madhurima975/Newdemo.git'
+            }
+        }
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t your-image-name .'
+            }
+        }
+        stage('Run Docker container') {
+            steps {
+                sh 'docker run -d -p 80:80 your-image-name'
+            }
+        }
     }
-    stage('Test') {
-      steps {
-        sh 'echo "Running tests..."'
-        sh 'npm test'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        sh 'echo "Deploying the project..."'
-        sh 'aws s3 sync . s3://my-bucket'
-      }
-    }
-  }
 }
